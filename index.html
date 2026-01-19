@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Sweet 16!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(5deg); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.15); }
+        }
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+        .animated-bg {
+background: linear-gradient(-45deg, #667eea, #764ba2, #ca62d6, #4facfe);            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        .glass {
+            /* background: rgba(255, 255, 255, 0.15); */
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+        .glass-dark {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .float { animation: float 3s ease-in-out infinite; }
+        .float-slow { animation: floatSlow 4s ease-in-out infinite; }
+        .fade-in-up { animation: fadeInUp 1s ease-out forwards; }
+        .slide-in-left { animation: slideInLeft 1s ease-out forwards; }
+        .slide-in-right { animation: slideInRight 1s ease-out forwards; }
+        .bounce { animation: bounce 2s ease-in-out infinite; }
+        .rotate { animation: rotate 20s linear infinite; }
+        .heartbeat { animation: heartbeat 1.5s ease-in-out infinite; }
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkle 2s infinite;
+        }
+        .number-glow {
+            text-shadow: 0 0 30px rgba(246, 173, 255, 0.8),
+                         0 0 60px rgba(118, 75, 162, 0.6),
+                         0 0 90px rgba(102, 126, 234, 0.4);
+        }
+        .text-glow {
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5),
+                         0 0 40px rgba(246, 173, 255, 0.3);
+        }
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
+        }
+        .balloon {
+            animation: floatSlow 5s ease-in-out infinite;
+        }
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid rgba(255, 255, 255, 0.75);
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: typing 3s steps(40, end), blink 0.75s step-end infinite;
+        }
+        .typewriter-container {
+            display: inline-block;
+            min-height: 1.5em;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            .typewriter {
+                border-right-width: 2px;
+            }
+            .number-glow {
+                text-shadow: 0 0 15px rgba(246, 173, 255, 0.8),
+                             0 0 30px rgba(118, 75, 162, 0.6);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .balloon {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="animated-bg min-h-screen overflow-x-hidden">
+    <!-- Sparkles Container -->
+    <div id="sparkles" class="fixed inset-0 pointer-events-none z-0"></div>
+
+    <!-- Floating Balloons Background -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="balloon absolute text-6xl" style="left: 10%; top: 80%; animation-delay: 0s;">🎈</div>
+        <div class="balloon absolute text-6xl" style="left: 85%; top: 70%; animation-delay: 1s;">💜</div>
+        <div class="balloon absolute text-6xl" style="left: 25%; top: 60%; animation-delay: 2s;">🎈</div>
+        <div class="balloon absolute text-6xl" style="left: 70%; top: 85%; animation-delay: 1.5s;">💙</div>
+        <div class="balloon absolute text-6xl" style="left: 50%; top: 75%; animation-delay: 0.5s;">🎈</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="relative z-10 px-4 py-8 sm:py-12">
+        
+        <!-- Hero Section -->
+        <div class="text-center mb-12 sm:mb-16 lg:mb-20 fade-in-up min-h-screen flex flex-col items-center justify-center px-2">
+            <div class="float mb-4 sm:mb-6 lg:mb-8">
+                <h1 class="text-7xl xs:text-8xl sm:text-9xl md:text-[10rem] lg:text-[12rem] font-bold text-white number-glow mb-2 sm:mb-4">
+                    16
+                </h1>
+            </div>
+            <div class="rotate absolute top-10 sm:top-20 right-4 sm:right-10 text-2xl sm:text-4xl opacity-50">✨</div>
+            <div class="rotate absolute bottom-10 sm:bottom-20 left-4 sm:left-10 text-2xl sm:text-4xl opacity-50" style="animation-delay: 1s;">⭐</div>
+            <h2 class="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3 sm:mb-4 text-glow px-2">
+                Sweet Sixteen
+            </h2>
+            <h3 class="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 text-glow px-2" style="animation-delay: 0.2s;">
+                <span class="typewriter-container">
+                    <span id="typed-name" class="typewriter"></span>
+                </span>
+            </h3>
+            <p class="text-lg xs:text-xl sm:text-2xl md:text-3xl text-white font-light opacity-90 px-4" style="animation-delay: 0.4s;">
+                <span id="typed-subtitle"></span>
+            </p>
+            <div class="bounce mt-6 sm:mt-8">
+                <div class="text-3xl sm:text-4xl">👇</div>
+            </div>
+        </div>
+
+        <!-- Countdown/Age Reveal Section -->
+        <div class="max-w-6xl mx-auto mb-12 sm:mb-16 lg:mb-24 px-2">
+            <div class="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 text-center slide-in-left">
+                <h2 class="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6 px-2">
+                    <span id="typed-age-title"></span>
+                </h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mt-6 sm:mt-8">
+                    <div class="glass-dark rounded-xl sm:rounded-2xl p-4 sm:p-6 hover-lift">
+                        <div class="text-3xl xs:text-4xl sm:text-5xl font-bold text-white mb-1 sm:mb-2">16</div>
+                        <div class="text-white text-xs sm:text-sm lg:text-base opacity-75">Years Young</div>
+                    </div>
+                    <div class="glass-dark rounded-xl sm:rounded-2xl p-4 sm:p-6 hover-lift">
+                        <div class="text-3xl xs:text-4xl sm:text-5xl font-bold text-white mb-1 sm:mb-2">192</div>
+                        <div class="text-white text-xs sm:text-sm lg:text-base opacity-75">Months of Joy</div>
+                    </div>
+                    <div class="glass-dark rounded-xl sm:rounded-2xl p-4 sm:p-6 hover-lift">
+                        <div class="text-3xl xs:text-4xl sm:text-5xl font-bold text-white mb-1 sm:mb-2">5,840</div>
+                        <div class="text-white text-xs sm:text-sm lg:text-base opacity-75">Days of Awesome</div>
+                    </div>
+                    <div class="glass-dark rounded-xl sm:rounded-2xl p-4 sm:p-6 hover-lift">
+                        <div class="text-3xl xs:text-4xl sm:text-5xl font-bold text-white mb-1 sm:mb-2">∞</div>
+                        <div class="text-white text-xs sm:text-sm lg:text-base opacity-75">Memories Made</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Special Qualities Section -->
+        <div class="max-w-6xl mx-auto mb-12 sm:mb-16 lg:mb-24 px-2">
+            <h2 class="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center mb-6 sm:mb-8 lg:mb-12 fade-in-up px-2">
+                <span id="typed-qualities"></span>
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                <div class="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover-lift fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="text-4xl sm:text-5xl mb-3 sm:mb-4 heartbeat">💖</div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-2 sm:mb-3">Amazing Heart</h3>
+                    <p class="text-white text-sm sm:text-base opacity-90">Your kindness and caring nature light up every room you enter.</p>
+                </div>
+                <div class="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover-lift fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="text-4xl sm:text-5xl mb-3 sm:mb-4">🌟</div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-2 sm:mb-3">Bright Spirit</h3>
+                    <p class="text-white text-sm sm:text-base opacity-90">Your energy and positivity inspire everyone around you!</p>
+                </div>
+                <div class="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover-lift fade-in-up" style="animation-delay: 0.3s;">
+                    <div class="text-4xl sm:text-5xl mb-3 sm:mb-4">🎨</div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-2 sm:mb-3">Creative Soul</h3>
+                    <p class="text-white text-sm sm:text-base opacity-90">Your unique perspective makes the world more beautiful.</p>
+                </div>
+                <div class="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover-lift fade-in-up" style="animation-delay: 0.4s;">
+                    <div class="text-4xl sm:text-5xl mb-3 sm:mb-4">🌈</div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-2 sm:mb-3">Full of Life</h3>
+                    <p class="text-white text-sm sm:text-base opacity-90">You bring color and joy to every moment and every day.</p>
+                </div>
+                <div class="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover-lift fade-in-up" style="animation-delay: 0.5s;">
+                    <div class="text-4xl sm:text-5xl mb-3 sm:mb-4">💪</div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-2 sm:mb-3">Strong & Brave</h3>
+                    <p class="text-white text-sm sm:text-base opacity-90">Your courage and determination are truly inspiring!</p>
+                </div>
+                <div class="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 hover-lift fade-in-up" style="animation-delay: 0.6s;">
+                    <div class="text-4xl sm:text-5xl mb-3 sm:mb-4">✨</div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-2 sm:mb-3">Simply Amazing</h3>
+                    <p class="text-white text-sm sm:text-base opacity-90">Everything about you is wonderful and one-of-a-kind!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Birthday Wishes Section -->
+        <div class="max-w-4xl mx-auto mb-12 sm:mb-16 lg:mb-24 px-2">
+            <div class="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 slide-in-right">
+                <h2 class="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center mb-6 sm:mb-8 px-2">
+                    <span id="typed-wishes"></span>
+                </h2>
+                <div class="space-y-3 sm:space-y-4">
+                    <div class="glass-dark rounded-xl sm:rounded-2xl p-4 sm:p-6 hover-lift">
+                        <p class="text-white text-sm sm:text-base lg:text-lg"><span class="font-bold text-lg sm:text-xl mr-2 sm:mr-3">1.</span> <span id="wish-1"></span></p>
+                    </div>
+                    <div class="glass-dark rounded-xl sm:rounded-2xl p-4 sm:p-6 hover-lift">
+                        <p class="text-white text-sm sm:text-base lg:text-lg"><span class="font-bold text-lg sm:text-xl mr-2 sm:mr-3">2.</span> <span id="wish-2"></span></p>
+                    </div>
+                    <div class="glass-dark rounded-xl sm:rounded-2xl p-4 sm:p-6 hover-lift">
+                        <p class="text-white text-sm sm:text-base lg:text-lg"><span class="font-bold text-lg sm:text-xl mr-2 sm:mr-3">3.</span> <span id="wish-3"></span></p>
+                    </div>
+                    <div class="glass-dark rounded-xl sm:rounded-2xl p-4 sm:p-6 hover-lift">
+                        <p class="text-white text-sm sm:text-base lg:text-lg"><span class="font-bold text-lg sm:text-xl mr-2 sm:mr-3">4.</span> <span id="wish-4"></span></p>
+                    </div>
+                    <div class="glass-dark rounded-xl sm:rounded-2xl p-4 sm:p-6 hover-lift">
+                        <p class="text-white text-sm sm:text-base lg:text-lg"><span class="font-bold text-lg sm:text-xl mr-2 sm:mr-3">5.</span> <span id="wish-5"></span></p>
+                    </div>
+                    <div class="glass-dark rounded-xl sm:rounded-2xl p-4 sm:p-6 hover-lift">
+                        <p class="text-white text-sm sm:text-base lg:text-lg"><span class="font-bold text-lg sm:text-xl mr-2 sm:mr-3">6.</span> <span id="wish-6"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Memory Timeline Section -->
+        <div class="max-w-6xl mx-auto mb-12 sm:mb-16 lg:mb-24 px-2">
+            <h2 class="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center mb-6 sm:mb-8 lg:mb-12 fade-in-up px-2">
+                <span id="typed-timeline"></span>
+            </h2>
+            <div class="space-y-6 sm:space-y-8">
+                <div class="glass rounded-2xl sm:rounded-3xl p-5 sm:p-6 lg:p-8 slide-in-left">
+                    <div class="flex flex-col md:flex-row items-center gap-4 sm:gap-6">
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 lg:w-32 lg:h-32 glass-dark rounded-full flex items-center justify-center text-3xl sm:text-4xl lg:text-5xl flex-shrink-0">
+                            👶
+                        </div>
+                        <div class="flex-1 text-center md:text-left">
+                            <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">The Beginning</h3>
+                            <p class="text-white text-sm sm:text-base lg:text-lg opacity-90">From the very first day, you brought so much joy into this world!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass rounded-2xl sm:rounded-3xl p-5 sm:p-6 lg:p-8 slide-in-right">
+                    <div class="flex flex-col md:flex-row-reverse items-center gap-4 sm:gap-6">
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 lg:w-32 lg:h-32 glass-dark rounded-full flex items-center justify-center text-3xl sm:text-4xl lg:text-5xl flex-shrink-0">
+                            🎒
+                        </div>
+                        <div class="flex-1 text-center md:text-right">
+                            <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Growing Up</h3>
+                            <p class="text-white text-sm sm:text-base lg:text-lg opacity-90">Every year you've grown more amazing, more talented, more YOU!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass rounded-2xl sm:rounded-3xl p-5 sm:p-6 lg:p-8 slide-in-left">
+                    <div class="flex flex-col md:flex-row items-center gap-4 sm:gap-6">
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 lg:w-32 lg:h-32 glass-dark rounded-full flex items-center justify-center text-3xl sm:text-4xl lg:text-5xl flex-shrink-0 heartbeat">
+                            🎉
+                        </div>
+                        <div class="flex-1 text-center md:text-left">
+                            <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">Sweet Sixteen!</h3>
+                            <p class="text-white text-sm sm:text-base lg:text-lg opacity-90"><span id="typed-sixteen"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fun Facts Section -->
+        <div class="max-w-6xl mx-auto mb-12 sm:mb-16 lg:mb-24 px-2">
+            <h2 class="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center mb-6 sm:mb-8 lg:mb-12 fade-in-up px-2">
+                🎈 Fun Things About Being 16 🎈
+            </h2>
+            <div class="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                <div class="glass rounded-2xl sm:rounded-3xl p-5 sm:p-6 text-center hover-lift">
+                    <div class="text-4xl sm:text-5xl mb-3 sm:mb-4">🚗</div>
+                    <h3 class="text-lg sm:text-xl font-bold text-white mb-2">New Adventures</h3>
+                    <p class="text-white text-xs sm:text-sm opacity-90">So many exciting opportunities ahead!</p>
+                </div>
+                <div class="glass rounded-2xl sm:rounded-3xl p-5 sm:p-6 text-center hover-lift">
+                    <div class="text-4xl sm:text-5xl mb-3 sm:mb-4">🎓</div>
+                    <h3 class="text-lg sm:text-xl font-bold text-white mb-2">Growing Wise</h3>
+                    <p class="text-white text-xs sm:text-sm opacity-90">Learning and growing every single day!</p>
+                </div>
+                <div class="glass rounded-2xl sm:rounded-3xl p-5 sm:p-6 text-center hover-lift">
+                    <div class="text-4xl sm:text-5xl mb-3 sm:mb-4">👯</div>
+                    <h3 class="text-lg sm:text-xl font-bold text-white mb-2">Amazing Friends</h3>
+                    <p class="text-white text-xs sm:text-sm opacity-90">Making memories with the best people!</p>
+                </div>
+                <div class="glass rounded-2xl sm:rounded-3xl p-5 sm:p-6 text-center hover-lift">
+                    <div class="text-4xl sm:text-5xl mb-3 sm:mb-4">🌟</div>
+                    <h3 class="text-lg sm:text-xl font-bold text-white mb-2">Endless Dreams</h3>
+                    <p class="text-white text-xs sm:text-sm opacity-90">The world is yours to explore!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Birthday Message -->
+        <div class="max-w-4xl mx-auto mb-12 sm:mb-16 lg:mb-24 px-2">
+            <div class="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 text-center fade-in-up">
+                <div class="text-5xl sm:text-6xl mb-4 sm:mb-6 heartbeat">💝</div>
+                <h2 class="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6 px-2">
+                    <span id="typed-message-title"></span>
+                </h2>
+                <p class="text-base sm:text-lg md:text-xl lg:text-2xl text-white leading-relaxed opacity-95 mb-4 sm:mb-6 px-2">
+                    <span id="typed-message-1"></span>
+                </p>
+                <p class="text-base sm:text-lg md:text-xl lg:text-2xl text-white leading-relaxed opacity-95 mb-4 sm:mb-6 px-2">
+                    <span id="typed-message-2"></span>
+                </p>
+                <p class="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white font-bold px-2">
+                    <span id="typed-message-3"></span>
+                </p>
+                <p class="text-base sm:text-lg md:text-xl text-white mt-4 sm:mt-6 opacity-90">
+                    The best is yet to come! 🎉🌟
+                </p>
+            </div>
+        </div>
+
+        <!-- Birthday Cake Section -->
+        <div class="max-w-3xl mx-auto mb-12 sm:mb-16 lg:mb-24 px-2">
+            <div class="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 text-center">
+                <div class="text-7xl sm:text-8xl lg:text-9xl mb-4 sm:mb-6 float">🎂</div>
+                <h2 class="text-2xl xs:text-3xl sm:text-4xl font-bold text-white mb-3 sm:mb-4 px-2">
+                    <span id="typed-cake"></span>
+                </h2>
+                <p class="text-base sm:text-lg md:text-xl text-white opacity-90 mb-4 sm:mb-6 px-2">
+                    Close your eyes, make a wish, and blow out the candles! 🕯️✨
+                </p>
+                <button onclick="celebrate()" class="glass hover-lift px-6 sm:px-8 py-3 sm:py-4 rounded-full text-white text-base sm:text-lg md:text-xl font-bold cursor-pointer">
+                    🎉 Click to Celebrate! 🎉
+                </button>
+            </div>
+        </div>
+
+        <!-- Final Section -->
+        <div class="max-w-4xl mx-auto mb-8 sm:mb-12 px-2">
+            <div class="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 text-center">
+                <h2 class="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6 px-2">
+                    🌟 Here's to 16 and Beyond! 🌟
+                </h2>
+                <p class="text-base sm:text-lg md:text-2xl text-white opacity-95 mb-3 sm:mb-4">
+                    May your 16th year be filled with:
+                </p>
+                <div class="text-sm sm:text-base md:text-xl text-white space-y-1 sm:space-y-2 opacity-90">
+                    <p>✨ Laughter that makes your belly hurt</p>
+                    <p>💖 Love from everyone around you</p>
+                    <p>🎉 Adventures you'll never forget</p>
+                    <p>🌈 Colors brighter than you've ever seen</p>
+                    <p>⭐ Dreams that reach the stars</p>
+                    <p>🎵 Music that makes you dance</p>
+                    <p>🌟 Magic in every single day</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center text-white pb-8 sm:pb-12 px-4">
+            <p class="text-lg sm:text-xl md:text-2xl font-bold mb-2"><span id="typed-footer"></span></p>
+            <p class="text-sm sm:text-base md:text-lg opacity-75">Made with 💕 just for you</p>
+            <p class="text-xs sm:text-sm opacity-60 mt-3 sm:mt-4">Scroll back up to relive the magic! ✨</p>
+        </div>
+    </div>
+
+    <script>
+        // Typewriter effect function with loop
+        function typeWriter(element, text, speed = 50, callback = null, loop = false) {
+            let i = 0;
+            element.innerHTML = '';
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    if (callback) {
+                        callback();
+                    }
+                    if (loop) {
+                        setTimeout(() => {
+                            element.innerHTML = '';
+                            i = 0;
+                            setTimeout(type, 1000); // Wait 1 second before restarting
+                        }, 3000); // Show complete text for 3 seconds
+                    }
+                }
+            }
+            type();
+        }
+        
+        // Looping typewriter for multiple texts
+        function typeWriterLoop(element, texts, speed = 50) {
+            let currentIndex = 0;
+            
+            function typeNext() {
+                typeWriter(element, texts[currentIndex], speed, () => {
+                    setTimeout(() => {
+                        currentIndex = (currentIndex + 1) % texts.length;
+                        element.innerHTML = '';
+                        setTimeout(typeNext, 500);
+                    }, 2000); // Show complete text for 2 seconds
+                });
+            }
+            
+            typeNext();
+        }
+
+        // Initialize typing animations
+        window.addEventListener('load', () => {
+            // Hero name - loops with multiple messages
+            const heroMessages = [
+                'Happy Birthday, ganna!',
+                'You\'re 16 Today!',
+                'Sweet Sixteen, ganna!',
+                'Celebrating YOU!'
+            ];
+            
+            setTimeout(() => {
+                typeWriterLoop(document.getElementById('typed-name'), heroMessages, 60);
+            }, 1000);
+
+            // Subtitle - loops
+            const subtitleMessages = [
+                'Today is all about celebrating YOU! 🎉✨',
+                'Make this day unforgettable! 💖',
+                'Your special day is here! 🌟',
+                'Time to celebrate! 🎊🎈'
+            ];
+            
+            setTimeout(() => {
+                typeWriterLoop(document.getElementById('typed-subtitle'), subtitleMessages, 40);
+            }, 3000);
+
+            // Age title - loops
+            const ageTitles = [
+                '🎂 ganna is officially 16! 🎂',
+                '🎉 Sweet Sixteen Time! 🎉',
+                '✨ 16 Years of Awesome! ✨',
+                '💖 ganna Turns 16! 💖'
+            ];
+            
+            setTimeout(() => {
+                typeWriterLoop(document.getElementById('typed-age-title'), ageTitles, 50);
+            }, 5000);
+
+            // Qualities title - loops
+            const qualitiesTitles = [
+                '✨ What Makes ganna So Special ✨',
+                '💖 ganna\'s Amazing Qualities 💖',
+                '🌟 Why ganna is Incredible 🌟',
+                '💝 Celebrating ganna\'s Greatness 💝'
+            ];
+            
+            setTimeout(() => {
+                typeWriterLoop(document.getElementById('typed-qualities'), qualitiesTitles, 50);
+            }, 7000);
+
+            // Wishes title - loops
+            const wishesTitles = [
+                '🌟 16 Wishes for ganna 🌟',
+                '💫 Birthday Wishes for You 💫',
+                '✨ Dreams for ganna ✨',
+                '🎉 Wishes for Your 16th Year 🎉'
+            ];
+            
+            setTimeout(() => {
+                typeWriterLoop(document.getElementById('typed-wishes'), wishesTitles, 50);
+            }, 9000);
+            
+            // Individual wishes - one time only
+            setTimeout(() => {
+                typeWriter(document.getElementById('wish-1'), 'May all your dreams come true this year', 30);
+                setTimeout(() => typeWriter(document.getElementById('wish-2'), 'May you laugh until your cheeks hurt', 30), 800);
+                setTimeout(() => typeWriter(document.getElementById('wish-3'), 'May you find adventure in every day', 30), 1600);
+                setTimeout(() => typeWriter(document.getElementById('wish-4'), 'May you discover new passions and talents', 30), 2400);
+                setTimeout(() => typeWriter(document.getElementById('wish-5'), 'May you be surrounded by amazing friends', 30), 3200);
+                setTimeout(() => typeWriter(document.getElementById('wish-6'), 'May you shine brighter than ever before', 30), 4000);
+            }, 11000);
+
+            // Timeline title - loops
+            const timelineTitles = [
+                '📸 ganna\'s Journey to 16 📸',
+                '🎬 Your Story So Far 🎬',
+                '⭐ ganna\'s Amazing Journey ⭐',
+                '💫 16 Years of Memories 💫'
+            ];
+            
+            setTimeout(() => {
+                typeWriterLoop(document.getElementById('typed-timeline'), timelineTitles, 50);
+            }, 13000);
+
+            // Sixteen message - loops
+            const sixteenMessages = [
+                'And now you\'re 16! The best is yet to come, ganna!',
+                'Sweet Sixteen and ready to shine!',
+                '16 looks amazing on you!',
+                'Your 16th year will be incredible!'
+            ];
+            
+            setTimeout(() => {
+                typeWriterLoop(document.getElementById('typed-sixteen'), sixteenMessages, 35);
+            }, 15000);
+
+            // Message title - loops
+            const messageTitles = [
+                'A Special Message for ganna',
+                'From the Heart ❤️',
+                'Birthday Love for ganna',
+                'A Letter to You 💌'
+            ];
+            
+            setTimeout(() => {
+                typeWriterLoop(document.getElementById('typed-message-title'), messageTitles, 50);
+            }, 17000);
+
+            // Main messages - loops
+            const message1Texts = [
+                'Happy 16th Birthday to someone who makes the world brighter just by being in it! This is such a special milestone, and you deserve all the happiness, love, and celebrations today brings.',
+                'Today we celebrate the amazing person you are and all the joy you bring to everyone around you. You\'re turning 16, and that\'s something truly special!',
+                'Sixteen years ago, the world became a better place. Today we celebrate you and all the wonderful things that make you unique and amazing!'
+            ];
+            
+            setTimeout(() => {
+                typeWriterLoop(document.getElementById('typed-message-1'), message1Texts, 25);
+            }, 19000);
+
+            const message2Texts = [
+                'You\'re growing into such an incredible person, and I\'m so proud of everything you\'ve accomplished and everything you\'re becoming. May this year bring you endless joy, amazing adventures, and dreams that come true!',
+                'Watching you grow has been such a blessing. This year will bring so many wonderful experiences, new friendships, and unforgettable moments. Enjoy every second!',
+                'Your journey is just beginning, and I can\'t wait to see all the incredible things you\'ll do. This year is yours to shine brighter than ever before!'
+            ];
+            
+            setTimeout(() => {
+                typeWriterLoop(document.getElementById('typed-message-2'), message2Texts, 25);
+            }, 25000);
+
+            const message3Texts = [
+                'Keep shining bright, ganna! ✨💖',
+                'You\'re Amazing, ganna! 🌟💝',
+                'So Proud of You! 💫💖',
+                'Never Stop Shining! ✨🌟'
+            ];
+            
+            setTimeout(() => {
+                typeWriterLoop(document.getElementById('typed-message-3'), message3Texts, 40);
+            }, 32000);
+
+            // Cake message - loops
+            const cakeMessages = [
+                'Make a Wish, ganna!',
+                'Blow Out the Candles!',
+                'Time for Cake! 🎂',
+                'Your Wish Awaits! ✨'
+            ];
+            
+            setTimeout(() => {
+                typeWriterLoop(document.getElementById('typed-cake'), cakeMessages, 50);
+            }, 35000);
+
+            // Footer - loops
+            const footerMessages = [
+                'Happy Birthday, ganna! 🎂💝',
+                'Celebrating You Today! 🎉',
+                'Sweet Sixteen Forever! ✨',
+                'ganna\'s Special Day! 💖'
+            ];
+            
+            setTimeout(() => {
+                typeWriterLoop(document.getElementById('typed-footer'), footerMessages, 50);
+            }, 37000);
+        });
+
+        // Create sparkles continuously
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.top = Math.random() * 100 + '%';
+            sparkle.style.animationDelay = Math.random() * 2 + 's';
+            document.getElementById('sparkles').appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 2000);
+        }
+        setInterval(createSparkle, 300);
+
+        // Create floating hearts on click
+        document.addEventListener('click', (e) => {
+            const emojis = ['💜', '💙', '✨', '🎉', '⭐', '💝'];
+            const heart = document.createElement('div');
+            heart.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+            heart.style.position = 'fixed';
+            heart.style.left = e.clientX + 'px';
+            heart.style.top = e.clientY + 'px';
+            heart.style.fontSize = '24px';
+            heart.style.pointerEvents = 'none';
+            heart.style.zIndex = '9999';
+            heart.style.animation = 'fadeInUp 1s ease-out forwards';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 1000);
+        });
+
+        // Celebration function
+        function celebrate() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    const emojis = ['🎉', '🎊', '🎈', '✨', '⭐', '💜', '💙', '🌟'];
+                    confetti.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                    confetti.style.position = 'fixed';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-50px';
+                    confetti.style.fontSize = '30px';
+                    confetti.style.pointerEvents = 'none';
+                    confetti.style.zIndex = '9999';
+                    confetti.style.animation = 'fadeInUp 3s ease-out forwards';
+                    document.body.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 50);
+            }
+        }
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up, .slide-in-left, .slide-in-right').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
